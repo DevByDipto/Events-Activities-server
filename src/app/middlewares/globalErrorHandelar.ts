@@ -9,6 +9,7 @@ import { handlerZodError } from "../helpers/handlerZodError";
 import { TErrorSources } from "../interfaces/error.types";
 import { AppError } from "../utils/AppError";
 import httpStatus from 'http-status'
+import { Prisma } from "@prisma/client";
 export const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if (envVars.NODE_ENV === "development") {
         // console.log(err);
