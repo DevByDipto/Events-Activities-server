@@ -1,0 +1,22 @@
+model User {
+  id         String    @id @default(uuid())
+  name       String
+  email      String    @unique
+  pass       String
+  image      String?
+  bio        String?
+  location   String?
+  role       Role      @default(USER)
+  isBlocked  Boolean   @default(false)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  //bujtehobe rating er subidha kii ?
+
+   reviewerRatings  Rating[] @relation("ReviewerRatings") // bujtehobe
+  hostRatings  Rating[] @relation("HostRatings")
+  eventParticipants EventParticipants[]
+  savedEvents SaveEvent[]
+}
+
+ 

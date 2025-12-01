@@ -8,7 +8,7 @@ import { handlerValidationError } from "../helpers/handlerValidationError";
 import { handlerZodError } from "../helpers/handlerZodError";
 import { TErrorSources } from "../interfaces/error.types";
 import { AppError } from "../utils/AppError";
-
+import httpStatus from 'http-status'
 export const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if (envVars.NODE_ENV === "development") {
         // console.log(err);
@@ -50,6 +50,31 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
     } else if (err instanceof Error) {
         statusCode = 500;
         message = err.message
+    }
+
+    if (err instanceof Prisma.PrismaClientValidationError) {
+        message = "Validation Error",
+            // error = err.message,
+            statusCode = httpStatus.BAD_REQUEST
+    }   `   `
+ if (err instanceof Prisma.PrismaClientKnownRequestError) {
+
+        if (err.code === "P2002") {
+            message = "Duplicate key error",
+                // error = err.meta,
+                statusCode = httpStatus.CONFLICT
+        }
+    }
+        if (err instanceof Prisma.PrismaClientUnknownRequestError) {
+        message = "Unknown Prisma error occured!",
+            // error = err.message,
+            statusCode = httpStatus.BAD_REQUEST
+    }
+
+    if (err instanceof Prisma.PrismaClientInitializationError) {
+        message = "Prisma client failed to initialize!",
+            // error = err.message,
+            statusCode = httpStatus.BAD_REQUEST
     }
 
     res.status(statusCode).json({

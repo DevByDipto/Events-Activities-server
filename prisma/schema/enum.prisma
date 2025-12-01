@@ -1,0 +1,46 @@
+enum Role {
+  USER
+  ADMIN
+  HOST
+}
+
+enum EventType {
+  CONCERT
+  HIKE
+  DINNER
+  SPORTS
+  WORKSHOP
+  MEETUP
+  BOARD
+  GAME_NIGHT
+  TECH_TALK
+  CYCLING
+  MOVIE_NIGHT
+  PICNIC
+  ART_EXHIBITION
+  MARATHON
+  CAMPING
+  BOOK_CLUB
+  NETWORKING_EVENT
+}
+
+enum EventStatus {
+  OPEN
+  FULL
+  CANCELLED
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETE
+  FAILED
+}
+
+enum interest {
+  MUSIC
+  HIKING
+  SPORTS
+  ART
+  GAMING 
+}
