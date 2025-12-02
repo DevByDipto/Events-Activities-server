@@ -18,6 +18,7 @@ model User {
   hostRatings  Rating[] @relation("HostRatings")
   eventParticipants EventParticipants[]
   savedEvents SaveEvent[]
+  event Event[]
 }
 
  

@@ -17,7 +17,22 @@ const user = req.user;
     })
 })
 
+const updateEvent =catchAsync(async (req: Request & { user?: User }, res: Response) =>{
+const user = req.user;
+const {id} = req.params
+
+    const result = await EventService.updateEvent(user as User,req.body as Partial<Event>,id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Event creat successfull!",
+        data: result
+    })
+})
+
 
 export const EventController ={
-    creatEvent
+    creatEvent,
+    updateEvent
 }
