@@ -14,6 +14,7 @@ const creatAdmin = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+
 const creatHost = catchAsync(async (req: Request, res: Response) => {
     const {userId} = req.params
     const result = await AdminService.creatHost(userId);
@@ -26,7 +27,22 @@ const creatHost = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const getAllUser = catchAsync(async (req: Request, res: Response) => {
+ 
+    const result = await AdminService.getAllUser();
+
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: "Patient created successfully!",
+        data: result
+    })
+})
+
+
+
 export const AdminController = {
 creatHost,
-creatAdmin
+creatAdmin,
+getAllUser
 }

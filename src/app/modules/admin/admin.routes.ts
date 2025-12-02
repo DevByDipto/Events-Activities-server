@@ -16,10 +16,10 @@ router.patch('/users/:userId/make-host',
        auth(UserRole.ADMIN),
     AdminController.creatHost)
 
-// router.get('/all-uses',
-
-//     AdminController.getAllUser
-// )
+router.get('/all-uses',
+auth(UserRole.ADMIN),
+    AdminController.getAllUser
+)
 
 // router.get('/all-hosts',
  

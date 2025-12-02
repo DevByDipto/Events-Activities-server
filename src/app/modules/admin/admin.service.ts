@@ -46,7 +46,17 @@ const creatAdmin =async (payload:CreateAdmin)=>{
        return result
 }
 
+const getAllUser =async ()=>{
+
+ const allAdmins = prisma.user.findMany({
+    where:{role:UserRole.ADMIN}
+ })
+   
+       return allAdmins
+}
+
 export const AdminService ={
 creatHost,
-creatAdmin
+creatAdmin,
+getAllUser
 }

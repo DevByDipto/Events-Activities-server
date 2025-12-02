@@ -17,7 +17,7 @@ model Event {
   createdAt           DateTime    @default(now())
   updatedAt           DateTime    @updatedAt
 
-  rating            Rating[]
+  review            Review[]
   eventParticipants EventParticipants[]
   saveEvent         SaveEvent[]
 }
@@ -31,9 +31,10 @@ model Payment {
   updatedAt     DateTime      @updatedAt
 }
 
-model Rating {
+model Review {
   id     String @id @default(uuid())
   rating Int
+  comment String?
 
   reviewer   User   @relation("ReviewerRatings", fields: [reviewerId], references: [id])
   reviewerId String

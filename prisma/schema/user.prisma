@@ -14,8 +14,8 @@ model User {
 
   //bujtehobe rating er subidha kii ?
 
-   reviewerRatings  Rating[] @relation("ReviewerRatings") // bujtehobe
-  hostRatings  Rating[] @relation("HostRatings")
+   reviewerReviews  Review[] @relation("ReviewerRatings") // bujtehobe
+  hostReviews  Review[] @relation("HostRatings")
   eventParticipants EventParticipants[]
   savedEvents SaveEvent[]
   event Event[]
