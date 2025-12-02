@@ -27,9 +27,9 @@ const creatHost = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
-const getAllUser = catchAsync(async (req: Request, res: Response) => {
+const getAllAdmin = catchAsync(async (req: Request, res: Response) => {
  
-    const result = await AdminService.getAllUser();
+    const result = await AdminService.getAllAdmin();
 
     sendResponse(res, {
         statusCode: 201,
@@ -39,10 +39,24 @@ const getAllUser = catchAsync(async (req: Request, res: Response) => {
     })
 })
 
+const updateUserBlockStatus = catchAsync(async (req: Request, res: Response) => {
+ 
+    const {accountId} = req.params
+    const result = await AdminService.updateUserBlockStatus(accountId,req.body);
+
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: "update blocked status successfully!",
+        data: result
+    })
+})
+
 
 
 export const AdminController = {
 creatHost,
 creatAdmin,
-getAllUser
+getAllAdmin,
+updateUserBlockStatus
 }

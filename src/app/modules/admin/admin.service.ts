@@ -46,7 +46,7 @@ const creatAdmin =async (payload:CreateAdmin)=>{
        return result
 }
 
-const getAllUser =async ()=>{
+const getAllAdmin =async ()=>{
 
  const allAdmins = prisma.user.findMany({
     where:{role:UserRole.ADMIN}
@@ -55,8 +55,21 @@ const getAllUser =async ()=>{
        return allAdmins
 }
 
+
+const updateUserBlockStatus =async (accountId:string,payload:{isBlocked:boolean})=>{
+console.log(payload);
+
+ const allAdmins = prisma.user.update({
+    where:{id:accountId},
+    data:payload
+ })
+   
+       return allAdmins
+}
+
 export const AdminService ={
 creatHost,
 creatAdmin,
-getAllUser
+getAllAdmin,
+updateUserBlockStatus
 }

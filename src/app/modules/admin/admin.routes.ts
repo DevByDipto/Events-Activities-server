@@ -3,7 +3,7 @@ import { auth } from '../../middlewares/auth';
 import { UserRole } from '@prisma/client';
 import { validationRequest } from '../../middlewares/validateRequest';
 import { AdminController } from './admin.controller';
-import { adminCreatZodSchema } from './admin.validation';
+import { adminCreatZodSchema, updateUserBlockStatusZodSchema } from './admin.validation';
 
 const router = express.Router();
 
@@ -16,9 +16,15 @@ router.patch('/users/:userId/make-host',
        auth(UserRole.ADMIN),
     AdminController.creatHost)
 
-router.get('/all-uses',
+router.get('/all-admin',
 auth(UserRole.ADMIN),
-    AdminController.getAllUser
+    AdminController.getAllAdmin
+)
+
+router.patch('/accounts/:accountId/block',
+auth(UserRole.ADMIN),
+validationRequest(updateUserBlockStatusZodSchema),
+    AdminController.updateUserBlockStatus
 )
 
 // router.get('/all-hosts',
