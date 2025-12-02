@@ -52,3 +52,4 @@ export const eventUpdateZodSchema = z.object({
 
   isFeatured: z.boolean().default(false).optional(),
 });
+

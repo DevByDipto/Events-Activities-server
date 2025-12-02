@@ -1,0 +1,35 @@
+import { User } from "@prisma/client";
+import { prisma } from "../../shared/prisma";
+import { AppError } from "../../utils/AppError";
+import httpStatus from 'http-status'
+
+
+const createReview =async (user:User,eventId:string,rating:number)=>{
+    
+    const event =await prisma.event.findUnique({
+        where:{id:eventId},
+        select:{
+            hostId:true
+        }
+    })
+
+    if(!event){
+        throw new AppError("Your review eventId is not valid",httpStatus.BAD_REQUEST)
+    }
+    
+    const result = prisma.rating.create({
+        data:{
+            reviewerId:user.id,
+            rating,
+            eventId,
+            hostId:event.hostId,
+
+        }
+    })
+    return result
+}
+
+
+export const reviewService = {
+    createReview
+}

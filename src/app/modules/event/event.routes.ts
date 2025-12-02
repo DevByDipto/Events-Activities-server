@@ -3,7 +3,7 @@
  import { auth } from '../../middlewares/auth';
  import { UserRole } from '@prisma/client';
 import { EventController } from './event.controller';
-import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
+import { creatReviewZodSchema, eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
 
 
  const router = express.Router();

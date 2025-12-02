@@ -38,9 +38,12 @@ const result = await prisma.event.findFirstOrThrow({where:{id,}})
 return result
 }
 
+
 export const EventService = {
     creatEvent,
     updateEvent,
     deleteEvent,
-    getEvent
+    getEvent,
+    
+  
 }

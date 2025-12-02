@@ -4,6 +4,7 @@ import { userRoutes } from "../modules/user/user.routes";
 import { adminRoutes} from "../modules/admin/admin.routes";
 import { eventRoutes } from "../modules/event/event.routes";
 import { saveEventRoutes } from "../modules/saveEvent/saveEvent.routes";
+import { reviewRoutes } from "../modules/review/review.routes";
 
 
 
@@ -28,9 +29,9 @@ const routes= [
    {path:'/save-events',
     route:saveEventRoutes
    },
-//    {path:'/review',
-//     route:reviewRoutes
-//    },
+   {path:'/reviews',
+    route:reviewRoutes
+   },
    
 ]
 

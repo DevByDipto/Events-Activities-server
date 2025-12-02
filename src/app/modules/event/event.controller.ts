@@ -60,9 +60,11 @@ const getEvent = catchAsync(async (req: Request , res: Response) => {
     })
 });
 
+
 export const EventController ={
     creatEvent,
     updateEvent,
     deleteEvent,
-    getEvent
+    getEvent,
+  
 }
