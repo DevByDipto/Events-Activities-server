@@ -1,20 +1,25 @@
 import express from 'express'
 import { UserController } from './user.controller';
 import { validationRequest } from '../../middlewares/validateRequest';
-import { registerZodSchema } from './user.validation';
+import { registerZodSchema, userZodSchema } from './user.validation';
+import { auth } from '../../middlewares/auth';
+import { UserRole } from '@prisma/client';
 const router = express.Router();
 
 router.post('/register',
     validationRequest(registerZodSchema),
     UserController.creatUser)
 
-// router.post('/profile',
-    
-//     UserController.updateProfile)
+router.get('/me',
+    auth(UserRole.ADMIN, UserRole.HOST, UserRole.USER),
+   
+    UserController.getMyProfile
+) 
 
-// router.get('/me',
-    
-//     UserController.userProfile)
+router.patch('/updateMyProfie', 
+    auth(UserRole.ADMIN, UserRole.HOST, UserRole.USER),
+    validationRequest(userZodSchema),
+    UserController.updateMyProfie )
 
 // router.get('/details',
     
@@ -24,8 +29,8 @@ router.post('/register',
     
 //     UserController.UpdateUserDetails)
 
-// router.patch('/',
-    
-//     UserController.UpdateUserDetails)
+router.delete('/',
+    auth(UserRole.ADMIN, UserRole.HOST, UserRole.USER),
+    UserController.deleteMyProfile)
 
 export const userRoutes = router;

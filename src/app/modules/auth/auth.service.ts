@@ -1,41 +1,36 @@
-// import { User, UserStatus } from "@prisma/client";
-// import { prisma } from "../../shared/prisma";
-// import bcrypt from 'bcrypt';
-// // import emailSender from "./emailSender";
-// import httpStatus from 'http-status'
-// import { AppError } from "../../utils/AppError";
-// import { envVars } from "../../config/env";
-// import { jwtHelper } from "../../helpers/jwtHelper";
+import { User} from "@prisma/client";
+import { prisma } from "../../shared/prisma";
+import bcrypt from 'bcrypt';
+// import emailSender from "./emailSender";
+import httpStatus from 'http-status'
+import { AppError } from "../../utils/AppError";
+import { envVars } from "../../config/env";
+import { jwtHelper } from "../../helpers/jwtHelper";
 
-// const login = async (payload:User) => {
-// console.log(payload,"payload");
-// console.log("Before DB Query");
-//      const user = await prisma.user.findUniqueOrThrow({
-      
-        
-//         where: {
-//             email: payload.email,
-//             status: UserStatus.ACTIVE
-//         }
-//     })
-//     console.log("after DB Query");
-// console.log(user,'user');
+const login = async (payload:User) => {
 
-//     const isCorrectPassword = await bcrypt.compare(payload.password, user.password);
-//     if (!isCorrectPassword) {
-//         throw new Error("Password is incorrect!")
-//     }
+     const user = await prisma.user.findUniqueOrThrow({
+        where: {
+            email: payload.email,
+        }
+    })
+ 
 
-//     const accessToken = jwtHelper.accessToken(user)
-//     const refreshToken = jwtHelper.refreshToken(user)
-//     // Implement login logic here
-//     return { 
-//        accessToken,
-//        refreshToken,
-//        user,
-//          needPasswordChange: user.needPasswordChange
-//      };
-// }
+    const isCorrectPassword = await bcrypt.compare(payload.password, user.password);
+    if (!isCorrectPassword) {
+        throw new Error("Password is incorrect!")
+    }
+
+    const accessToken = jwtHelper.accessToken(user)
+    const refreshToken = jwtHelper.refreshToken(user)
+    // Implement login logic here
+    return { 
+       accessToken,
+       refreshToken,
+       user,
+       
+     };
+}
 
 // const refreshToken = async (token: string) => {
 //     let decodedData;
@@ -183,11 +178,11 @@
 //     })
 // }; 
 
-// export const AuthService = {
-//     login,
+export const AuthService = {
+    login,
 //     refreshToken,
 //     changePassword,
 //     getMe,
 //      forgotPassword,
 //     resetPassword
-// }
+}

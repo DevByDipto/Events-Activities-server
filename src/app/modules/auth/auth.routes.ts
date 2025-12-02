@@ -1,6 +1,8 @@
 import express from 'express'
 import { AuthController } from '../auth/auth.controller';
 import { auth } from '../../middlewares/auth';
+import { validationRequest } from '../../middlewares/validateRequest';
+import { loginZodSchema } from './auth.validation';
 
 
 const router = express.Router();
@@ -10,10 +12,11 @@ const router = express.Router();
 //     AuthController.getMe
 // )
 
-// router.post(
-//     "/login",
-//     AuthController.login
-// )
+router.post(
+    "/login",
+    validationRequest(loginZodSchema),
+    AuthController.login
+)
 
 // router.post(
 //     '/refresh-token',

@@ -1,7 +1,9 @@
 import { NextFunction, Request, Response } from "express"
-import { jwtHelper } from '../helper/jwtHelper'
+
+import { jwtHelper } from "../helpers/jwtHelper"
 import { UserRole } from "@prisma/client"
-export const auth = (...roles:UserRole[]) => {
+import { prisma } from "../shared/prisma"
+export const auth = (...roles: UserRole[]) => {
     return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
         try {
             const token = req.cookies.accessToken
@@ -16,7 +18,13 @@ export const auth = (...roles:UserRole[]) => {
             if (roles.length && !roles.includes(verifyUser?.role)) {
                 throw new Error("You are not authorized!")
             }
-            
+
+            const user = await prisma.user.findFirstOrThrow({ where: { email: verifyUser.email } })
+req.user = user
+            if (user.isBlocked) {
+                throw new Error("You are blocked by admin!")
+            }
+
             next()
         } catch (error) {
             next(error)

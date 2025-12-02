@@ -11,7 +11,7 @@ CREATE TYPE "EventStatus" AS ENUM ('OPEN', 'FULL', 'CANCELLED', 'COMPLETED');
 CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'COMPLETE', 'FAILED');
 
 -- CreateEnum
-CREATE TYPE "interest" AS ENUM ('MUSIC', 'HIKING', 'SPORTS', 'ART', 'GAMING');
+CREATE TYPE "Interest" AS ENUM ('MUSIC', 'HIKING', 'SPORTS', 'ART', 'GAMING');
 
 -- CreateTable
 CREATE TABLE "Event" (
@@ -84,7 +84,8 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "email" TEXT NOT NULL,
-    "pass" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
+    "interests" "Interest"[] DEFAULT ARRAY[]::"Interest"[],
     "image" TEXT,
     "bio" TEXT,
     "location" TEXT,

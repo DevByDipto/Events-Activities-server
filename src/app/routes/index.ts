@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { authRoutes } from "../modules/auth/auth.routes";
 import { userRoutes } from "../modules/user/user.routes";
+import { adminRoutes} from "../modules/admin/admin.routes";
+import { eventRoutes } from "../modules/event/event.routes";
 
 
 
@@ -10,18 +12,18 @@ const routes= [
    {path:'/auth',
     route:authRoutes
    },
-   {path:'/user',
+   {path:'/users',
     route:userRoutes
    },
 //    {path:'/host',
 //     route:hostRoutes
 //    },
-//    {path:'/admin',
-//     route:adminRoutes
-//    },
-//    {path:'/event',
-//     route:eventRoutes
-//    },
+   {path:'/admins',
+    route:adminRoutes
+   },
+   {path:'/events',
+    route:eventRoutes
+   },
 //    {path:'/review',
 //     route:reviewRoutes
 //    },

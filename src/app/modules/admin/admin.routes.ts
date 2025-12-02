@@ -1,22 +1,37 @@
 import express from 'express'
+import { auth } from '../../middlewares/auth';
+import { UserRole } from '@prisma/client';
+import { validationRequest } from '../../middlewares/validateRequest';
+import { AdminController } from './admin.controller';
+import { adminCreatZodSchema } from './admin.validation';
 
 const router = express.Router();
 
+router.post('/',
+    //    auth(UserRole.ADMIN),
+    validationRequest(adminCreatZodSchema),
+    AdminController.creatAdmin)
+
+router.patch('/users/:userId/make-host',
+       auth(UserRole.ADMIN),
+    AdminController.creatHost)
+
 // router.get('/all-uses',
 
-//     adminController.getAllUser
+//     AdminController.getAllUser
 // )
 
 // router.get('/all-hosts',
-
-//     adminController.getAllHost
+ 
+//     AdminController.getAllHost
 // )
 
 // router.get('/all-event',
 
-//     adminController.getAllEvent
+//     AdminController.getAllEvent
 // )
 
 
 
-export const userRoutes = router;
+
+export const adminRoutes = router;

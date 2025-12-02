@@ -1,4 +1,4 @@
-enum Role {
+enum UserRole {
   USER
   ADMIN
   HOST
@@ -37,7 +37,7 @@ enum PaymentStatus {
   FAILED
 }
 
-enum interest {
+enum Interest {
   MUSIC
   HIKING
   SPORTS

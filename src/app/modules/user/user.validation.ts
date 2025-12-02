@@ -3,6 +3,19 @@ import z from 'zod'
 export const registerZodSchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  pass: z.string().min(6),
+  password: z.string().min(6),
 
 });
+
+
+export const userZodSchema = z.object({
+  name: z.string().min(1, "Name is required").optional(),
+  password: z.string().min(6, "Password too short").optional(),
+  interests: z.array(z.string()).default([]).optional(),
+  image: z.string().url().optional().nullable(),
+  bio: z.string().optional().nullable(),
+  location: z.string().optional().nullable(),
+});
+
+
+

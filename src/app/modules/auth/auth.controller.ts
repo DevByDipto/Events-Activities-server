@@ -1,32 +1,32 @@
-// import { NextFunction, Request, Response } from "express";
-// import { AuthService } from "./auth.service";
-// import catchAsync from "../../shared/catchAsync";
-// import sendResponse from "../../shared/sendResponse";
-// import httpStatus from 'http-status'
-// import { setCookie } from "../../helpers/setCookie";
+import { NextFunction, Request, Response } from "express";
+import { AuthService } from "./auth.service";
+import catchAsync from "../../shared/catchAsync";
+import sendResponse from "../../shared/sendResponse";
+import httpStatus from 'http-status'
+import { setCookie } from "../../helpers/setCookie";
 
-// const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
 
-//     const result = await AuthService.login(req.body);
-//     console.log(result,"result");
+    const result = await AuthService.login(req.body);
+    console.log(result,"result");
     
-//     const { accessToken, refreshToken, needPasswordChange, user } = result;
-//     const userToken = {
-//         accessToken,
-//         refreshToken
-//     }
-//     setCookie(res, userToken);
+    const { accessToken, refreshToken, needPasswordChange, user } = result;
+    const userToken = {
+        accessToken,
+        refreshToken
+    }
+    setCookie(res, userToken);
 
-//     sendResponse(res, {
-//         statusCode: 200,
-//         success: true,
-//         message: "Patient logged in successfully",
-//         data: {
-//             needPasswordChange,
-//             user,
-//         },
-//     });
-// })
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Patient logged in successfully",
+        data: {
+            needPasswordChange,
+            user,
+        },
+    });
+})
 
 // const refreshToken = catchAsync(async (req: Request, res: Response) => {
 //     const { refreshToken } = req.cookies;
@@ -106,7 +106,7 @@ const getMe = (req: Request, res: Response) => {
 // });
 
 export const AuthController = {
-    // login,
+    login,
     // refreshToken,
     // changePassword,
     getMe,
