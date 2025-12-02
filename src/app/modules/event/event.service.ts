@@ -20,6 +20,7 @@ const updateEvent = (user:User,eventData:Partial<Event>,id:string)=>{
         where:{
         hostId:user.id,
         id,
+        isApproved:true
         },
             data:eventData
         })
@@ -27,8 +28,19 @@ const updateEvent = (user:User,eventData:Partial<Event>,id:string)=>{
         return result
 }
 
+const deleteEvent =async(user:User,id:string)=>{
+const result = await prisma.event.delete({where:{hostId:user.id,id,}})
+return result
+}
+
+const getEvent =async(id:string)=>{
+const result = await prisma.event.findFirstOrThrow({where:{id,}})
+return result
+}
 
 export const EventService = {
     creatEvent,
-    updateEvent
+    updateEvent,
+    deleteEvent,
+    getEvent
 }

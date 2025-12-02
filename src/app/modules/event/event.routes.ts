@@ -4,6 +4,8 @@
  import { UserRole } from '@prisma/client';
 import { EventController } from './event.controller';
 import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
+
+
  const router = express.Router();
  
  router.post('/',
@@ -16,5 +18,12 @@ import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
      validationRequest(eventUpdateZodSchema),
     EventController.updateEvent)
  
+    router.delete('/:id', 
+        auth(UserRole.HOST), 
+        EventController.deleteEvent) 
+
+    router.get('/:id', 
+        auth(UserRole.HOST,UserRole.ADMIN,UserRole.USER), 
+        EventController.getEvent) 
  
  export const eventRoutes = router;

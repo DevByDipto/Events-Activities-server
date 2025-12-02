@@ -31,8 +31,38 @@ const {id} = req.params
     })
 })
 
+const deleteEvent = catchAsync(async (req: Request & { user?: User }, res: Response) => {
+
+    const user = req.user;
+    const {id} = req.params
+
+    const result = await EventService.deleteEvent(user as User,id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Delete event successFull!",
+        data: result
+    })
+});
+const getEvent = catchAsync(async (req: Request , res: Response) => {
+
+   
+    const {id} = req.params
+
+    const result = await EventService.getEvent(id);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "get event successFull!",
+        data: result
+    })
+});
 
 export const EventController ={
     creatEvent,
-    updateEvent
+    updateEvent,
+    deleteEvent,
+    getEvent
 }
