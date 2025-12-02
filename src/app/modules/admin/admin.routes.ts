@@ -3,7 +3,7 @@ import { auth } from '../../middlewares/auth';
 import { UserRole } from '@prisma/client';
 import { validationRequest } from '../../middlewares/validateRequest';
 import { AdminController } from './admin.controller';
-import { adminCreatZodSchema, updateUserBlockStatusZodSchema } from './admin.validation';
+import { adminCreatZodSchema, updateEventApprovalZodSchema, updateUserBlockStatusZodSchema } from './admin.validation';
 
 const router = express.Router();
 
@@ -26,11 +26,16 @@ auth(UserRole.ADMIN),
 validationRequest(updateUserBlockStatusZodSchema),
     AdminController.updateUserBlockStatus
 )
+router.get('/all-hosts',
+auth(UserRole.ADMIN),
+    AdminController.getAllHost
+)
 
-// router.get('/all-hosts',
- 
-//     AdminController.getAllHost
-// )
+router.patch('/event/:eventId/approve',
+auth(UserRole.ADMIN),
+validationRequest(updateEventApprovalZodSchema),
+    AdminController.updateEventApproval
+)
 
 // router.get('/all-event',
 

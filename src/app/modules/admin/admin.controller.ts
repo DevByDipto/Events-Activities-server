@@ -52,11 +52,37 @@ const updateUserBlockStatus = catchAsync(async (req: Request, res: Response) => 
     })
 })
 
+const getAllHost = catchAsync(async (req: Request, res: Response) => {
+ 
+    
+    const result = await AdminService.getAllHost();
 
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: "update blocked status successfully!",
+        data: result
+    })
+})
+
+const updateEventApproval = catchAsync(async (req: Request, res: Response) => {
+ 
+    const {eventId} = req.params
+    const result = await AdminService.updateEventApproval(eventId,req.body);
+
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: "update blocked status successfully!",
+        data: result
+    })
+})
 
 export const AdminController = {
 creatHost,
 creatAdmin,
 getAllAdmin,
-updateUserBlockStatus
+updateUserBlockStatus,
+getAllHost,
+updateEventApproval
 }

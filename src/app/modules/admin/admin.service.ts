@@ -67,9 +67,31 @@ console.log(payload);
        return allAdmins
 }
 
+
+const getAllHost =async ()=>{
+
+
+ const result = prisma.user.findMany({where:{role:UserRole.HOST}})
+   
+       return result
+}
+
+
+const updateEventApproval =async (eventId:string,payload:{isApproved:boolean})=>{
+console.log(payload);
+
+ const result = prisma.event.update({
+    where:{id:eventId},
+    data:payload
+ })
+       return result
+}
+
 export const AdminService ={
 creatHost,
 creatAdmin,
 getAllAdmin,
-updateUserBlockStatus
+updateUserBlockStatus,
+getAllHost,
+updateEventApproval
 }
