@@ -12,8 +12,18 @@ const creatSaveEvent =async (user:User,eventId:string)=>{
     return result
 }
 
+const getAllSaveEvent =async (user:User)=>{
+
+    const result = prisma.saveEvent.findMany({
+        where:{userId:user.id}
+    })
+    return result
+
+}
+
 
 export const SaveEventService = {
-    creatSaveEvent
+    creatSaveEvent,
+    getAllSaveEvent
  
 }

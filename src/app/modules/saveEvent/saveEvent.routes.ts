@@ -11,5 +11,9 @@ const router = express.Router();
        auth(UserRole.USER,),
     SaveEventController.creatSaveEvent)
 
+ router.get('/',
+       auth(UserRole.USER,),
+    SaveEventController.getAllSaveEvent)
+
 
 export const saveEventRoutes = router;

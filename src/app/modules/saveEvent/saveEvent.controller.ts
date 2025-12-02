@@ -4,7 +4,7 @@ import { SaveEventService } from "./saveEvent.service";
 import sendResponse from "../../shared/sendResponse";
 import { User } from "@prisma/client";
 
-const creatSaveEvent = catchAsync(async (req: Request & {user:User}, res: Response) => {
+const creatSaveEvent = catchAsync(async (req: Request & {user?:User}, res: Response) => {
     const user = req.user
     const {eventId} = req.params
     const result = await SaveEventService.creatSaveEvent(user as User,eventId);
@@ -17,7 +17,21 @@ const creatSaveEvent = catchAsync(async (req: Request & {user:User}, res: Respon
     })
 })
 
+const getAllSaveEvent = catchAsync(async (req: Request & {user?:User}, res: Response) => {
+    const user = req.user
+ 
+    const result = await SaveEventService.getAllSaveEvent(user as User);
+
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: "Patient created successfully!",
+        data: result
+    })
+})
+
 export const SaveEventController = {
     creatSaveEvent,
+    getAllSaveEvent
  
 }
