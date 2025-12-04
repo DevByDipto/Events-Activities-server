@@ -3,7 +3,7 @@ dotenv.config() // keno dilam ?
 
 
 const loadEnvVariable = () => { // aikhane to ami bole e dicchi j PORT: process.env.PORT as string mane port string hobe tahole abar EnvConfig korar dorkar kii?
-    const requredEnvVariables: string[] = ["PORT", "NODE_ENV", "SESSION_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "SALT","JWT_ACCESS_SECRET","JWT_REFRESH_SECRET","JWT_ACCESS_EXPIRES","JWT_REFRESH_EXPIRES","CLIENT_URL",
+    const requredEnvVariables: string[] = ["PORT", "NODE_ENV", "SESSION_SECRET", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "SALT","JWT_ACCESS_SECRET","JWT_REFRESH_SECRET","JWT_ACCESS_EXPIRES","JWT_REFRESH_EXPIRES","CLIENT_URL","STRIPE_WEBHOOK_SECRET","STRIPE_SECRET_KEY"
         // "CLIENT_DOMAIN"
     ]
     requredEnvVariables.forEach(key => {
@@ -23,6 +23,8 @@ const loadEnvVariable = () => { // aikhane to ami bole e dicchi j PORT: process.
         JWT_ACCESS_EXPIRES: process.env.JWT_ACCESS_EXPIRES as string,
         JWT_REFRESH_EXPIRES: process.env.JWT_REFRESH_EXPIRES as string,
         CLIENT_URL: process.env.CLIENT_URL as string,
+        STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY as string,
+        STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET as string,
         // CLIENT_DOMAIN: process.env.CLIENT_DOMAIN as string,
     }
 }

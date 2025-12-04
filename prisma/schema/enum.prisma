@@ -32,9 +32,8 @@ enum EventStatus {
 }
 
 enum PaymentStatus {
-  PENDING
-  COMPLETE
-  FAILED
+ PAID
+ UNPAID
 }
 
 enum Interest {

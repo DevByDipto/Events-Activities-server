@@ -6,7 +6,7 @@ model Event {
   eventType           EventType
   dateTime            DateTime
   location            String
-  minParticipants     Int
+  minParticipants     Int 
   maxParticipants     Int
   currentParticipants Int         @default(0)
   image               String
@@ -20,13 +20,18 @@ model Event {
   review            Review[]
   eventParticipants EventParticipants[]
   saveEvent         SaveEvent[]
+  payment Payment[]
 }
 
 model Payment {
   id            String        @id @default(uuid())
   amount        Float
-  paymentStatus PaymentStatus @default(PENDING)
-  transactionId String        @unique
+  paymentStatus PaymentStatus @default(UNPAID)
+  transactionId String?        @unique
+  user   User   @relation(fields: [userId], references: [id])
+  userId String 
+  event   Event   @relation(fields: [eventId], references: [id])
+  eventId String
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 }

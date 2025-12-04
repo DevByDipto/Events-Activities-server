@@ -60,11 +60,39 @@ const getEvent = catchAsync(async (req: Request , res: Response) => {
     })
 });
 
+const joinEvent =catchAsync(async (req: Request & { user?: User }, res: Response) =>{
+const user = req.user;
+const {eventId} = req.params
+    const result = await EventService.joinEvent(user as User,eventId);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Event creat successfull!",
+        data: result
+    })
+})
+
+const getAllEvent = catchAsync(async (req: Request , res: Response) => {
+
+   
+  
+
+    const result = await EventService.getAllEvent();
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Get all event successFull!",
+        data: result
+    })
+});
 
 export const EventController ={
     creatEvent,
     updateEvent,
     deleteEvent,
     getEvent,
-  
+  joinEvent,
+  getAllEvent
 }

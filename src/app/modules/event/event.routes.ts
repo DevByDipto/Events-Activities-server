@@ -25,5 +25,13 @@ import { creatReviewZodSchema, eventCreatZodSchema, eventUpdateZodSchema } from 
     router.get('/:id', 
         auth(UserRole.HOST,UserRole.ADMIN,UserRole.USER), 
         EventController.getEvent) 
+
+         router.post('/:eventId/join',
+       auth(UserRole.USER,),
+    EventController.joinEvent)
+
+    router.get('/', 
+       
+        EventController.getAllEvent) 
  
  export const eventRoutes = router;

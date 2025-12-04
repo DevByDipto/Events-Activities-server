@@ -12,9 +12,14 @@ const router = express.Router();
 validationRequest(creatReviewZodSchema),
     reviewController.createReview)
          
-// router.get('/review',
-//     routerController.getAllReview
-// )
+router.get('/',
+    reviewController.getAllReview 
+)
+router.get('/hosts',//last
+    reviewController.hostsReview 
+)
+
+
 
 
 export const reviewRoutes = router;
