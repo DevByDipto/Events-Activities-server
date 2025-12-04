@@ -5,6 +5,7 @@ import { adminRoutes} from "../modules/admin/admin.routes";
 import { eventRoutes } from "../modules/event/event.routes";
 import { saveEventRoutes } from "../modules/saveEvent/saveEvent.routes";
 import { reviewRoutes } from "../modules/review/review.routes";
+import { eventParticipantsRoutes } from "../modules/EventParticipants/eventParticipants.route";
 
 
 
@@ -31,6 +32,9 @@ const routes= [
    },
    {path:'/reviews',
     route:reviewRoutes
+   },
+   {path:'/event-participants',
+    route:eventParticipantsRoutes
    },
    
 ]

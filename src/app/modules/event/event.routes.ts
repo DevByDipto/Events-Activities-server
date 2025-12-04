@@ -3,7 +3,7 @@
  import { auth } from '../../middlewares/auth';
  import { UserRole } from '@prisma/client';
 import { EventController } from './event.controller';
-import { creatReviewZodSchema, eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
+import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
 
 
  const router = express.Router();
@@ -22,16 +22,20 @@ import { creatReviewZodSchema, eventCreatZodSchema, eventUpdateZodSchema } from 
         auth(UserRole.HOST), 
         EventController.deleteEvent) 
 
-    router.get('/:id', 
-        auth(UserRole.HOST,UserRole.ADMIN,UserRole.USER), 
-        EventController.getEvent) 
-
          router.post('/:eventId/join',
        auth(UserRole.USER,),
     EventController.joinEvent)
 
     router.get('/', 
-       
-        EventController.getAllEvent) 
+        EventController.getAllEvents) 
+
+    router.get('/host', 
+      auth(UserRole.HOST),
+        EventController.getHostCreatedAllEvents) 
+
+        
+    router.get('/:id', 
+        auth(UserRole.HOST,UserRole.ADMIN,UserRole.USER), 
+        EventController.getEvent) 
  
  export const eventRoutes = router;

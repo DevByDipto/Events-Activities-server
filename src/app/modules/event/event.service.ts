@@ -120,8 +120,6 @@ const cancelUnpaidevent = async () => {
             }
         })
 
-
-
         // 
         for (const unPaidpayment of unPaidpayments) {
 
@@ -143,17 +141,77 @@ const cancelUnpaidevent = async () => {
             })
         }
         // 
-
-
     })
 
 }
 
-const getAllEvent = async () => {
-    const result = await prisma.event.findMany()
+const getAllEvents = async (filters: any) => {
+    const {
+        search,
+        eventType,
+        location,
+        featured,
+        upcoming,
+        past,
+    } = filters;
+
+    const where: any = {};
+
+    // 🔍 1) Search by name
+    if (search) {
+        where.name = {
+            contains: search,
+            mode: "insensitive",
+        };
+    }
+
+    // 🎯 2) Filter by eventType
+    if (eventType) {
+        where.eventType = eventType;
+    }
+
+    // 📍 3) Filter by location
+    if (location) {
+        where.location = {
+            contains: location,
+            mode: "insensitive",
+        };
+    }
+
+    // ⭐ 4) Featured events
+    if (featured === "true") {
+        where.isFeatured = true;
+    }
+
+    // 📅 5) Upcoming events (date > now)
+    if (upcoming === "true") {
+        where.dateTime = {
+            gte: new Date(),
+        };
+    }
+
+    // ⏳ 6) Past events (date < now)
+    if (past === "true") {
+        where.dateTime = {
+            lt: new Date(),
+        };
+    }
+
+    const result = await prisma.event.findMany({
+        where,
+        orderBy: {
+            dateTime: "asc",
+        },
+    });
+
+    return result;
+};
+
+
+const getHostCreatedAllEvents = async (user: User) => {
+    const result = await prisma.event.findMany({ where: { hostId:user.id, } })
     return result
 }
-
 export const EventService = {
     creatEvent, 
     updateEvent, 
@@ -161,5 +219,6 @@ export const EventService = {
     getEvent, 
     joinEvent,
     cancelUnpaidevent,
-    getAllEvent
+    getAllEvents,
+    getHostCreatedAllEvents
 }

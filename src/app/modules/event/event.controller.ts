@@ -46,6 +46,7 @@ const deleteEvent = catchAsync(async (req: Request & { user?: User }, res: Respo
     })
 });
 const getEvent = catchAsync(async (req: Request , res: Response) => {
+console.log("work in get event");
 
    
     const {id} = req.params
@@ -73,12 +74,11 @@ const {eventId} = req.params
     })
 })
 
-const getAllEvent = catchAsync(async (req: Request , res: Response) => {
+const getAllEvents = catchAsync(async (req: Request , res: Response) => {
 
-   
-  
+    const filters = req.query;   // সব query এখানেই আসবে
 
-    const result = await EventService.getAllEvent();
+    const result = await EventService.getAllEvents(filters);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -88,11 +88,29 @@ const getAllEvent = catchAsync(async (req: Request , res: Response) => {
     })
 });
 
+const getHostCreatedAllEvents = catchAsync(async (req: Request &{user?:User} , res: Response) => {
+    console.log("work");
+    
+const user = req.user
+    
+
+    const result = await EventService.getHostCreatedAllEvents(user as User);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Get all event creat by host successFull!",
+        data: result
+    })
+});
+
+
 export const EventController ={
     creatEvent,
     updateEvent,
     deleteEvent,
     getEvent,
   joinEvent,
-  getAllEvent
+  getAllEvents,
+  getHostCreatedAllEvents
 }
