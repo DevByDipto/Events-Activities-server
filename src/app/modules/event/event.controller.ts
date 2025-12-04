@@ -105,6 +105,20 @@ const user = req.user
 });
 
 
+const leaveEvent = catchAsync(async (req: Request & { user?: User }, res: Response) => {
+
+    const user = req.user;
+    const {eventId} = req.params
+
+    const result = await EventService.leaveEvent(user as User,eventId);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        success: true,
+        message: "Delete event successFull!",
+        data: result
+    })
+});
 export const EventController ={
     creatEvent,
     updateEvent,
@@ -112,5 +126,6 @@ export const EventController ={
     getEvent,
   joinEvent,
   getAllEvents,
-  getHostCreatedAllEvents
+  getHostCreatedAllEvents,
+  leaveEvent
 }

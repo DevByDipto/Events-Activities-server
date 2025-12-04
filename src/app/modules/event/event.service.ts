@@ -209,16 +209,42 @@ const getAllEvents = async (filters: any) => {
 
 
 const getHostCreatedAllEvents = async (user: User) => {
-    const result = await prisma.event.findMany({ where: { hostId:user.id, } })
+    const result = await prisma.event.findMany({ where: { hostId: user.id, } })
+    return result
+}
+
+const leaveEvent = async (user: User, eventId: string) => {
+    const result = await prisma.eventParticipants.delete({
+        where: {
+            userId_eventId: {
+                userId: user.id, eventId,
+            }
+        }
+    })
+    
+ 
+        const event = await prisma.event.findUniqueOrThrow({ 
+                where: {
+                     id: eventId,
+                   
+                    } })
+
+    await prisma.event.update({
+        where:{id:eventId},
+         data: { currentParticipants: (event.currentParticipants - 1) }
+    })
+  
+            
     return result
 }
 export const EventService = {
-    creatEvent, 
-    updateEvent, 
-    deleteEvent, 
-    getEvent, 
+    creatEvent,
+    updateEvent,
+    deleteEvent,
+    getEvent,
     joinEvent,
     cancelUnpaidevent,
     getAllEvents,
-    getHostCreatedAllEvents
+    getHostCreatedAllEvents,
+    leaveEvent
 }

@@ -17,10 +17,6 @@ import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
        auth(UserRole.HOST,),
      validationRequest(eventUpdateZodSchema),
     EventController.updateEvent)
- 
-    router.delete('/:id', 
-        auth(UserRole.HOST), 
-        EventController.deleteEvent) 
 
          router.post('/:eventId/join',
        auth(UserRole.USER,),
@@ -38,4 +34,12 @@ import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
         auth(UserRole.HOST,UserRole.ADMIN,UserRole.USER), 
         EventController.getEvent) 
  
+         router.delete('/:eventId/leave', 
+        auth(UserRole.HOST), 
+        EventController.leaveEvent) 
+
+        
+    router.delete('/:id', 
+        auth(UserRole.HOST), 
+        EventController.deleteEvent) 
  export const eventRoutes = router;
