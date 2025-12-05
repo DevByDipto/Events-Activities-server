@@ -51,14 +51,16 @@ const joinEvent = async (user: User, eventId: string) => {
         const eventParticipant = await tnx.eventParticipants.create({
             data: { userId: user.id, eventId }
         })
+        // console.log("eventParticipant",eventParticipant);
 
         const payment = await tnx.payment.create({
             data: {
                 amount: event.joiningFee,
                 userId: user.id,
-                eventId
+                eventId,
             }
         })
+        // console.log("payment",payment);
 
         await prisma.event.update({
             where: { id: event.id },
@@ -88,6 +90,13 @@ const joinEvent = async (user: User, eventId: string) => {
             success_url: `https://keep.google.com/u/0/#home`,
             cancel_url: `https://facebook.com`,
         });
+        // console.log("url",session.url);
+        await prisma.payment.update({
+            where: { id: payment.id },
+            data: {
+                paymentUrl: session.url
+            }
+        })
         return { paymentUrl: session.url };
     })
 
@@ -196,6 +205,15 @@ const getAllEvents = async (filters: any) => {
             lt: new Date(),
         };
     }
+    // if(Object.keys(where).length === 0){
+    //  const result = await prisma.event.findMany({
+    //         orderBy: {
+    //             dateTime: "asc",
+    //         },
+    //     });
+
+    //     return result;
+    // }
 
     const result = await prisma.event.findMany({
         where,
@@ -205,6 +223,7 @@ const getAllEvents = async (filters: any) => {
     });
 
     return result;
+
 };
 
 
@@ -214,6 +233,7 @@ const getHostCreatedAllEvents = async (user: User) => {
 }
 
 const leaveEvent = async (user: User, eventId: string) => {
+
     const result = await prisma.eventParticipants.delete({
         where: {
             userId_eventId: {
@@ -221,20 +241,27 @@ const leaveEvent = async (user: User, eventId: string) => {
             }
         }
     })
-    
- 
-        const event = await prisma.event.findUniqueOrThrow({ 
-                where: {
-                     id: eventId,
-                   
-                    } })
+
+    await prisma.payment.delete({
+        where: {
+            userId_eventId: {
+                userId: user.id, eventId,
+            }
+        }
+    })
+    const event = await prisma.event.findUniqueOrThrow({
+        where: {
+            id: eventId,
+
+        }
+    })
 
     await prisma.event.update({
-        where:{id:eventId},
-         data: { currentParticipants: (event.currentParticipants - 1) }
+        where: { id: eventId },
+        data: { currentParticipants: (event.currentParticipants - 1) }
     })
-  
-            
+
+
     return result
 }
 export const EventService = {

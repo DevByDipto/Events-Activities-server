@@ -5,7 +5,7 @@ import { prisma } from "../../shared/prisma";
 
 
  const getAllEventParticipants= async (user: any) => {
-console.log(user,"user");
+// console.log(user,"user");
 
     // ADMIN → returns all
     if (user.role === "ADMIN") {
@@ -24,13 +24,17 @@ console.log(user,"user");
 
     // USER → only his participants
     if (user.role === "USER") {
-      return await prisma.eventParticipants.findMany({
+      
+      const result = await prisma.eventParticipants.findMany({
         where: { userId: user.id },
         include: {
           user: true,
           event: true,
         }
       });
+      console.log("result",result);
+      
+      return result
     }
 
     // HOST → all participants of events created by the HOST
@@ -47,13 +51,16 @@ console.log("hostEvents",hostEvents);
 console.log("eventIds",eventIds);
 
       // Step 2: get all EventParticipants for those events
-      return await prisma.eventParticipants.findMany({
+       const result = await prisma.eventParticipants.findMany({
         where: { eventId: { in: eventIds } },
         include: {
           user: true,
           event: true,
         }
       });
+      console.log("result",result);
+      
+      return result
     }
 
     

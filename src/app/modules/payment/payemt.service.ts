@@ -1,7 +1,7 @@
 import { Request } from "express";
 import Stripe from "stripe";
 import { prisma } from "../../shared/prisma";
-import { PaymentStatus } from "@prisma/client";
+import { PaymentStatus, User } from "@prisma/client";
 import { stripe } from "../../helpers/strip";
 
  const handleStripeWebhook= async(req: Request) =>{ 
@@ -60,6 +60,41 @@ await prisma.payment.update({
 
     return { received: true };
   }
+
+
+ const getPaymentForHost = async (user: User) => {
+  const hostId = user.id;
+
+  // Step 1: Host এর সব event খুঁজে বের করা
+  const events = await prisma.event.findMany({
+    where: {
+      hostId: hostId
+    },
+    select: {
+      id: true
+    }
+  });
+
+  // Step 2: সেই event id গুলো বের করা
+  const eventIds = events.map((event) => event.id);
+
+  if(eventIds.length === 0) {
+    return []; // host এর কোনো event নেই
+  }
+
+  // Step 3: Payment table থেকে payment খুঁজে বের করা
+  const payments = await prisma.payment.findMany({
+    where: {
+      eventId: {
+        in: eventIds
+      }
+    }
+  });
+
+  return payments;
+};
+
 export const paymentService = {
-handleStripeWebhook
+handleStripeWebhook,
+getPaymentForHost
 }

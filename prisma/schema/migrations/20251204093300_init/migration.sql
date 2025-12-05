@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('USER', 'ADMIN', 'HOST');
+CREATE TYPE "UserRole" AS ENUM ('USER', 'ADMIN', 'HOST');
 
 -- CreateEnum
 CREATE TYPE "EventType" AS ENUM ('CONCERT', 'HIKE', 'DINNER', 'SPORTS', 'WORKSHOP', 'MEETUP', 'BOARD', 'GAME_NIGHT', 'TECH_TALK', 'CYCLING', 'MOVIE_NIGHT', 'PICNIC', 'ART_EXHIBITION', 'MARATHON', 'CAMPING', 'BOOK_CLUB', 'NETWORKING_EVENT');
@@ -8,7 +8,7 @@ CREATE TYPE "EventType" AS ENUM ('CONCERT', 'HIKE', 'DINNER', 'SPORTS', 'WORKSHO
 CREATE TYPE "EventStatus" AS ENUM ('OPEN', 'FULL', 'CANCELLED', 'COMPLETED');
 
 -- CreateEnum
-CREATE TYPE "PaymentStatus" AS ENUM ('PENDING', 'COMPLETE', 'FAILED');
+CREATE TYPE "PaymentStatus" AS ENUM ('PAID', 'UNPAID');
 
 -- CreateEnum
 CREATE TYPE "Interest" AS ENUM ('MUSIC', 'HIKING', 'SPORTS', 'ART', 'GAMING');
@@ -16,6 +16,7 @@ CREATE TYPE "Interest" AS ENUM ('MUSIC', 'HIKING', 'SPORTS', 'ART', 'GAMING');
 -- CreateTable
 CREATE TABLE "Event" (
     "id" TEXT NOT NULL,
+    "hostId" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "eventType" "EventType" NOT NULL,
     "dateTime" TIMESTAMP(3) NOT NULL,
@@ -38,8 +39,10 @@ CREATE TABLE "Event" (
 CREATE TABLE "Payment" (
     "id" TEXT NOT NULL,
     "amount" DOUBLE PRECISION NOT NULL,
-    "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'PENDING',
-    "transactionId" TEXT NOT NULL,
+    "paymentStatus" "PaymentStatus" NOT NULL DEFAULT 'UNPAID',
+    "transactionId" TEXT,
+    "userId" TEXT NOT NULL,
+    "eventId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -47,16 +50,17 @@ CREATE TABLE "Payment" (
 );
 
 -- CreateTable
-CREATE TABLE "Rating" (
+CREATE TABLE "Review" (
     "id" TEXT NOT NULL,
     "rating" INTEGER NOT NULL,
+    "comment" TEXT,
     "reviewerId" TEXT NOT NULL,
     "hostId" TEXT NOT NULL,
     "eventId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Rating_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "Review_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -89,7 +93,7 @@ CREATE TABLE "User" (
     "image" TEXT,
     "bio" TEXT,
     "location" TEXT,
-    "role" "Role" NOT NULL DEFAULT 'USER',
+    "role" "UserRole" NOT NULL DEFAULT 'USER',
     "isBlocked" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -101,7 +105,7 @@ CREATE TABLE "User" (
 CREATE UNIQUE INDEX "Payment_transactionId_key" ON "Payment"("transactionId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Rating_reviewerId_eventId_key" ON "Rating"("reviewerId", "eventId");
+CREATE UNIQUE INDEX "Review_reviewerId_eventId_key" ON "Review"("reviewerId", "eventId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "EventParticipants_userId_eventId_key" ON "EventParticipants"("userId", "eventId");
@@ -113,13 +117,22 @@ CREATE UNIQUE INDEX "SaveEvent_userId_eventId_key" ON "SaveEvent"("userId", "eve
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- AddForeignKey
-ALTER TABLE "Rating" ADD CONSTRAINT "Rating_reviewerId_fkey" FOREIGN KEY ("reviewerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Event" ADD CONSTRAINT "Event_hostId_fkey" FOREIGN KEY ("hostId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Rating" ADD CONSTRAINT "Rating_hostId_fkey" FOREIGN KEY ("hostId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Payment" ADD CONSTRAINT "Payment_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Rating" ADD CONSTRAINT "Rating_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Payment" ADD CONSTRAINT "Payment_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_reviewerId_fkey" FOREIGN KEY ("reviewerId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_hostId_fkey" FOREIGN KEY ("hostId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Review" ADD CONSTRAINT "Review_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "EventParticipants" ADD CONSTRAINT "EventParticipants_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

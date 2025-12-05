@@ -6,6 +6,7 @@ import { eventRoutes } from "../modules/event/event.routes";
 import { saveEventRoutes } from "../modules/saveEvent/saveEvent.routes";
 import { reviewRoutes } from "../modules/review/review.routes";
 import { eventParticipantsRoutes } from "../modules/EventParticipants/eventParticipants.route";
+import { paymentsRoutes } from "../modules/payment/payment.routes";
 
 
 
@@ -35,6 +36,9 @@ const routes= [
    },
    {path:'/event-participants',
     route:eventParticipantsRoutes
+   },
+   {path:'/payments',
+    route:paymentsRoutes
    },
    
 ]

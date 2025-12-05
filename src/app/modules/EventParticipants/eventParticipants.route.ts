@@ -2,7 +2,7 @@ import express from 'express'
 import { validationRequest } from '../../middlewares/validateRequest';
 import { auth } from '../../middlewares/auth';
 import { UserRole } from '@prisma/client';
-import { EventParticipantsController } from './EventParticipants.controller';
+import { EventParticipantsController } from './eventParticipants.controller';
 
 
 const router = express.Router();

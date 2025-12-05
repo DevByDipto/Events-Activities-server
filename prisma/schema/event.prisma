@@ -32,8 +32,10 @@ model Payment {
   userId String 
   event   Event   @relation(fields: [eventId], references: [id])
   eventId String
+  paymentUrl String?
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
+  @@unique([userId, eventId])
 }
 
 model Review {

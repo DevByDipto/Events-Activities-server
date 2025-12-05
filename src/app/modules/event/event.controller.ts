@@ -46,7 +46,7 @@ const deleteEvent = catchAsync(async (req: Request & { user?: User }, res: Respo
     })
 });
 const getEvent = catchAsync(async (req: Request , res: Response) => {
-console.log("work in get event");
+console.log("work in get event.....");
 
    
     const {id} = req.params
@@ -62,6 +62,8 @@ console.log("work in get event");
 });
 
 const joinEvent =catchAsync(async (req: Request & { user?: User }, res: Response) =>{
+    console.log("work joinEvent");
+    
 const user = req.user;
 const {eventId} = req.params
     const result = await EventService.joinEvent(user as User,eventId);
@@ -75,10 +77,12 @@ const {eventId} = req.params
 })
 
 const getAllEvents = catchAsync(async (req: Request , res: Response) => {
+console.log("work");
 
     const filters = req.query;   // সব query এখানেই আসবে
 
     const result = await EventService.getAllEvents(filters);
+console.log(result);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,

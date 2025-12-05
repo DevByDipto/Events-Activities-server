@@ -10,14 +10,41 @@ import { TErrorSources } from "../interfaces/error.types";
 import { AppError } from "../utils/AppError";
 import httpStatus from 'http-status'
 import { Prisma } from "@prisma/client";
+
+
 export const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     if (envVars.NODE_ENV === "development") {
         // console.log(err);
     }
 
     let errorSources: TErrorSources[] = []
-    let statusCode = 500
+    let statusCode = 400
     let message = "Something Went Wrong!!"
+
+     if (err instanceof Prisma.PrismaClientValidationError) {
+        message = "Validation Error",
+            // error = err.message,
+            statusCode = httpStatus.BAD_REQUEST
+    }   `   `
+ if (err instanceof Prisma.PrismaClientKnownRequestError) {
+
+        if (err.code === "P2002") {
+            message = "Duplicate key error",
+                // error = err.meta,
+                statusCode = httpStatus.CONFLICT
+        }
+    }
+        if (err instanceof Prisma.PrismaClientUnknownRequestError) {
+        message = "Unknown Prisma error occured!",
+            // error = err.message,
+            statusCode = httpStatus.BAD_REQUEST
+    }
+
+    if (err instanceof Prisma.PrismaClientInitializationError) {
+        message = "Prisma client failed to initialize!",
+            // error = err.message,
+            statusCode = httpStatus.BAD_REQUEST
+    }
 
     //Duplicate error
     if (err.code === 11000) {
@@ -53,35 +80,13 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
         message = err.message
     }
 
-    if (err instanceof Prisma.PrismaClientValidationError) {
-        message = "Validation Error",
-            // error = err.message,
-            statusCode = httpStatus.BAD_REQUEST
-    }   `   `
- if (err instanceof Prisma.PrismaClientKnownRequestError) {
-
-        if (err.code === "P2002") {
-            message = "Duplicate key error",
-                // error = err.meta,
-                statusCode = httpStatus.CONFLICT
-        }
-    }
-        if (err instanceof Prisma.PrismaClientUnknownRequestError) {
-        message = "Unknown Prisma error occured!",
-            // error = err.message,
-            statusCode = httpStatus.BAD_REQUEST
-    }
-
-    if (err instanceof Prisma.PrismaClientInitializationError) {
-        message = "Prisma client failed to initialize!",
-            // error = err.message,
-            statusCode = httpStatus.BAD_REQUEST
-    }
+   
 
     res.status(statusCode).json({
         success: false,
         message,
         errorSources,
+        statusCode:statusCode,
         err:envVars.NODE_ENV === "development" ? err : null,
         stack: envVars.NODE_ENV === "development" ? err.stack : null
     })
