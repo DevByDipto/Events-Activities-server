@@ -31,7 +31,6 @@ auth(UserRole.ADMIN),
     AdminController.getAllHost
 )
 router.get('/all-user',
-auth(UserRole.ADMIN),
     AdminController.getAllUser
 )
 
