@@ -30,12 +30,18 @@ const updateEvent = (user: User, eventData: Partial<Event>, id: string) => {
 }
 
 const deleteEvent = async (user: User, id: string) => {
-    const result = await prisma.event.delete({ where: { hostId: user.id, id, } })
+
+    const result = await prisma.event.update({ 
+        where: { hostId: user.id, id, },
+        data:{softDelete:true}
+    })
+
+    
     return result
 }
 
 const getEvent = async (id: string) => {
-    const result = await prisma.event.findFirstOrThrow({ where: { id, } })
+    const result = await prisma.event.findFirstOrThrow({ where: { id } })
     return result
 }
 
@@ -164,7 +170,7 @@ const getAllEvents = async (filters: any) => {
         past,
     } = filters;
 
-    const where: any = {};
+    const where: any = {softDelete:false};
 
     // 🔍 1) Search by name
     if (search) {
@@ -228,7 +234,7 @@ const getAllEvents = async (filters: any) => {
 
 
 const getHostCreatedAllEvents = async (user: User) => {
-    const result = await prisma.event.findMany({ where: { hostId: user.id, } })
+    const result = await prisma.event.findMany({ where: { hostId: user.id, softDelete:false} })
     return result
 }
 

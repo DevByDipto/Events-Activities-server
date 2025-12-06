@@ -56,9 +56,12 @@ const deleteMyProfile = catchAsync(async (req: Request & { user?: User }, res: R
     })
 });
 
+
+
 export const UserController = {
     creatUser,
     getMyProfile,
     updateMyProfie,
-    deleteMyProfile
+    deleteMyProfile,
+    getAllUser
 }

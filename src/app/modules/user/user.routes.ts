@@ -21,12 +21,8 @@ router.patch('/updateMyProfie',
     validationRequest(userZodSchema),
     UserController.updateMyProfie )
 
-// router.get('/details',
-    
-//     UserController.userDetails)
 
-// router.patch('/',
-    
+// router.patch('/', 
 //     UserController.UpdateUserDetails)
 
 router.delete('/',

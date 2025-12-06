@@ -64,6 +64,18 @@ const getAllHost = catchAsync(async (req: Request, res: Response) => {
         data: result
     })
 })
+const getAllUser = catchAsync(async (req: Request, res: Response) => {
+ 
+    
+    const result = await AdminService.getAllUser();
+
+    sendResponse(res, {
+        statusCode: 201,
+        success: true,
+        message: "update blocked status successfully!",
+        data: result
+    })
+})
 
 const updateEventApproval = catchAsync(async (req: Request, res: Response) => {
  
@@ -84,5 +96,6 @@ creatAdmin,
 getAllAdmin,
 updateUserBlockStatus,
 getAllHost,
+getAllUser,
 updateEventApproval
 }

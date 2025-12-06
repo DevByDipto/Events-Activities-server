@@ -30,6 +30,10 @@ router.get('/all-hosts',
 auth(UserRole.ADMIN),
     AdminController.getAllHost
 )
+router.get('/all-user',
+auth(UserRole.ADMIN),
+    AdminController.getAllUser
+)
 
 router.patch('/event/:eventId/approve',
 auth(UserRole.ADMIN),

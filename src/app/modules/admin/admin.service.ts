@@ -69,10 +69,15 @@ console.log(payload);
 
 
 const getAllHost =async ()=>{
-
-
+ 
  const result = prisma.user.findMany({where:{role:UserRole.HOST}})
-   
+
+       return result
+}
+const getAllUser =async ()=>{
+ 
+ const result = prisma.user.findMany({where:{role:UserRole.USER}})
+
        return result
 }
 
@@ -93,5 +98,6 @@ creatAdmin,
 getAllAdmin,
 updateUserBlockStatus,
 getAllHost,
+getAllUser,
 updateEventApproval
 }

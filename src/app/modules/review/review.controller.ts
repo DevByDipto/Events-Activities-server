@@ -6,15 +6,14 @@ import { reviewService } from "./review.service";
 import { EventService } from "../event/event.service";
 
 const createReview = catchAsync(async (req: Request &{user?:User}, res: Response) => {
-    const {rating} = req.body
     const {eventId}= req.params
     const user = req.user
-    const result = await reviewService.createReview(user as User,eventId,rating);
+    const result = await reviewService.createReview(user as User,eventId,req.body);
 
     sendResponse(res, {
         statusCode: 201,
         success: true,
-        message: "Patient created successfully!",
+        message: "review created successfully!",
         data: result
     })
 })
@@ -32,7 +31,7 @@ const getAllReview = catchAsync(async (req: Request &{user?:User}, res: Response
 
 const hostsReview = catchAsync(async (req: Request &{user?:User}, res: Response) => {
     const user = req.user
-    const result = await reviewService.hostsReview(user);
+    const result = await reviewService.hostsReview(user as User);
  
     sendResponse(res, {
         statusCode: 201,

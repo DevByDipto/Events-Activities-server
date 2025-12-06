@@ -39,7 +39,7 @@ import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
         EventController.leaveEvent) 
 
         
-    router.delete('/:id', 
+    router.patch('/:id/delete', 
         auth(UserRole.HOST), 
         EventController.deleteEvent) 
  export const eventRoutes = router;

@@ -2,10 +2,12 @@ import { User } from "@prisma/client";
 import { prisma } from "../../shared/prisma";
 import { AppError } from "../../utils/AppError";
 import httpStatus from 'http-status'
+import { number } from "zod";
 
 
-const createReview =async (user:User,eventId:string,rating:number)=>{
-    
+const createReview =async (user:User,eventId:string,data:any)=>{
+    const {rating,comment}= data
+
     const event =await prisma.event.findUnique({
         where:{id:eventId},
         select:{
@@ -20,9 +22,11 @@ const createReview =async (user:User,eventId:string,rating:number)=>{
     const result = prisma.review.create({
         data:{
             reviewerId:user.id,
-            rating,
+            rating:Number(rating),
             eventId,
             hostId:event.hostId,
+            comment
+           
         }
     })
     return result

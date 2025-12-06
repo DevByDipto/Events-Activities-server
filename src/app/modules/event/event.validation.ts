@@ -6,7 +6,7 @@ export const eventCreatZodSchema = z.object({
 
   eventType: z.nativeEnum(EventType),
 
-  dateTime: z.string().datetime("Invalid date-time format"),
+  dateTime: z.coerce.date(),
   // If frontend gives ISO string → correct
 
   location: z.string().min(1, "Location is required"),
@@ -17,7 +17,7 @@ export const eventCreatZodSchema = z.object({
 
   currentParticipants: z.number().int().default(0).optional(),
 
-  image: z.string().url("Image must be a valid URL"),
+  image: z.string(),
 
   joiningFee: z.number().int().min(0).default(0).optional(),
 
@@ -33,7 +33,7 @@ export const eventUpdateZodSchema = z.object({
 
   eventType: z.nativeEnum(EventType).optional(),
 
-  dateTime: z.string().datetime("Invalid date-time format").optional(),
+  dateTime: z.coerce.date().optional(),
   // If frontend gives ISO string → correct
 
   location: z.string().min(1, "Location is required").optional(),
@@ -44,7 +44,7 @@ export const eventUpdateZodSchema = z.object({
 
   currentParticipants: z.number().int().default(0).optional(),
 
-  image: z.string().url("Image must be a valid URL").optional(),
+  image: z.string().optional(),
 
   joiningFee: z.number().int().min(0).default(0).optional(),
 
