@@ -8,6 +8,7 @@ export const auth = (...roles: UserRole[]) => {
         try {
             const token = req.cookies.accessToken
             // console.log(token,"token"); 
+console.log("body",req.body);
 
             if (!token) {
                 throw new Error("You are not authorized!")

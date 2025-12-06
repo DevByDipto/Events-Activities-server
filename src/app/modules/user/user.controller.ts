@@ -30,6 +30,7 @@ const getMyProfile = catchAsync(async (req: Request & {user?:User}, res: Respons
 const updateMyProfie = catchAsync(async (req: Request & { user?: User }, res: Response) => {
 
     const user = req.user;
+console.log("updateMyProfie");
 
     const result = await UserService.updateMyProfie(user as User, req);
 

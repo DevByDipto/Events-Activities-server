@@ -80,6 +80,7 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
         message = err.message
     }
 
+   console.log("err",err);
    
 
     res.status(statusCode).json({

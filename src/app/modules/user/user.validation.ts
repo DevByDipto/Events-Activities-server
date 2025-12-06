@@ -14,7 +14,7 @@ export const userZodSchema = z.object({
   name: z.string().min(1, "Name is required").optional(),
   password: z.string().min(6, "Password too short").optional(),
   interests: z.array(z.string()).default([]).optional(),
-  image: z.string().url().optional().nullable(),
+  image: z.string().optional().nullable(),
   bio: z.string().optional().nullable(),
   location: z.string().optional().nullable(),
 });
