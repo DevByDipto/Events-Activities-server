@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { prisma } from "../../shared/prisma";
 import { PaymentStatus, User } from "@prisma/client";
 import { stripe } from "../../helpers/strip";
+import { GetPaymentsOptions } from "../../interfaces";
 
  const handleStripeWebhook= async(req: Request) =>{ 
     const sig = req.headers["stripe-signature"];
@@ -90,11 +91,50 @@ await prisma.payment.update({
       }
     }
   });
+  return payments;
+};
+
+ const getPayments = async (user: User, options?: GetPaymentsOptions) => {
+  const { id, role } = user;
+console.log(id, role);
+
+  const where: any = {}; // Prisma where object
+
+  // যদি status filter আসে
+  if (options?.status) {
+    where.status = options.status;
+  }
+
+  if (role === "USER") {
+    // শুধুমাত্র নিজস্ব payment
+    where.userId = id;
+  } else if (role === "ADMIN") {
+    // Admin হলে সব payment দেখাবে
+    // কোন extra filter নাই, শুধু status filter apply হবে
+  } else {
+    throw new Error("Invalid role");
+  }
+console.log("where",where);
+
+  const payments = await prisma.payment.findMany({
+    where,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+console.log("payments",payments);
 
   return payments;
 };
 
+const getSinglePayment = async (userId:string,eventId:string) => {
+  const result = await prisma.payment.findUnique({where:{userId_eventId:{userId,eventId}}})
+  return result
+}
 export const paymentService = {
 handleStripeWebhook,
-getPaymentForHost
+getPaymentForHost,
+getPayments,
+getSinglePayment
 }

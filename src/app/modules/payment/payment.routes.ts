@@ -13,6 +13,16 @@ router.get('/host',
     paymentController.getPaymentForHost 
 )
 
+router.get('/',
+    auth(UserRole.ADMIN,UserRole.USER),
+    paymentController.getPayments
+)
+
+router.get('/',
+    auth(UserRole.ADMIN,UserRole.USER,UserRole.HOST),
+    paymentController.getSinglePayment
+)
+
 
 
 

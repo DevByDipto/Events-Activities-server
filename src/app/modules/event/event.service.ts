@@ -60,7 +60,7 @@ const joinEvent = async (user: User, eventId: string) => {
                 eventId,
             }
         })
-        // console.log("payment",payment);
+        console.log("payment",payment);
 
         await prisma.event.update({
             where: { id: event.id },
@@ -91,7 +91,7 @@ const joinEvent = async (user: User, eventId: string) => {
             cancel_url: `https://facebook.com`,
         });
         // console.log("url",session.url);
-        await prisma.payment.update({
+        await tnx.payment.update({
             where: { id: payment.id },
             data: {
                 paymentUrl: session.url
