@@ -7,8 +7,9 @@ import bcrypt from 'bcrypt'
 import { User } from "@prisma/client"
 import { RegisterUser } from "../../interfaces"
 const creatUser =async (payload:RegisterUser)=>{
-    const {name,email,role} = payload
-
+    const {name,email} = payload
+    let {role} = payload
+if(!role) role = "USER"
     const isUserExist = await prisma.user.findUnique({where:{ email: payload.email }})
     // console.log(isUserExist);
 
@@ -27,6 +28,7 @@ const creatUser =async (payload:RegisterUser)=>{
             role,
         }
     })
+console.log(result);
 
     return result
 }

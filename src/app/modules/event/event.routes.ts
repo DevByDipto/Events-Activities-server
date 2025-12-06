@@ -35,7 +35,7 @@ import { eventCreatZodSchema, eventUpdateZodSchema } from './event.validation';
         EventController.getEvent) 
  
          router.delete('/:eventId/leave', 
-        auth(UserRole.HOST), 
+        auth(UserRole.USER), 
         EventController.leaveEvent) 
 
         
