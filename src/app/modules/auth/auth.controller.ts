@@ -4,13 +4,19 @@ import catchAsync from "../../shared/catchAsync";
 import sendResponse from "../../shared/sendResponse";
 import httpStatus from 'http-status'
 import { setCookie } from "../../helpers/setCookie";
+import { prisma } from "../../shared/prisma";
 
 const login = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-
+if(req?.body?.email){
+    const user = await prisma.user.findUnique({ where: { email: req.body.email,isBlocked:true } })
+    if (user) {
+        throw new Error("You are blocked by admin!")
+    }
+}
     const result = await AuthService.login(req.body);
-    console.log(result,"result");
+    // console.log(result,"result");
     
-    const { accessToken, refreshToken, needPasswordChange, user } = result;
+    const { accessToken, refreshToken, user } = result;
     const userToken = {
         accessToken,
         refreshToken
@@ -22,7 +28,6 @@ const login = catchAsync(async (req: Request, res: Response, next: NextFunction)
         success: true,
         message: "Patient logged in successfully",
         data: {
-            needPasswordChange,
             user,
         },
     });
@@ -76,7 +81,7 @@ const login = catchAsync(async (req: Request, res: Response, next: NextFunction)
 //     });
 // });
 const getMe = (req: Request, res: Response) => {
-   console.log("");
+//    console.log("");
    
 }
 

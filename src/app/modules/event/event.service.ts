@@ -12,12 +12,13 @@ const creatEvent = (user: User, eventData: Event) => {
     return result
 }
 
-const updateEvent = (user: User, eventData: Partial<Event>, id: string) => {
+const updateEvent = async(user: User, eventData: Partial<Event>, id: string) => {
+console.log("eventDataeventData",eventData);
 
     if (Object.keys(eventData).length == 0) {
         throw new AppError("you should provide at least a event field", httpStatus.BAD_REQUEST)
     }
-    const result = prisma.event.update({
+    const result =await prisma.event.update({
         where: {
             hostId: user.id,
             id,
@@ -25,6 +26,7 @@ const updateEvent = (user: User, eventData: Partial<Event>, id: string) => {
         },
         data: eventData
     })
+console.log("result",result);
 
     return result
 }
@@ -66,7 +68,7 @@ const joinEvent = async (user: User, eventId: string) => {
                 eventId,
             }
         })
-        console.log("payment",payment);
+        // console.log("payment",payment);
 
         await prisma.event.update({
             where: { id: event.id },

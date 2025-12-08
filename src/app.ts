@@ -13,6 +13,11 @@ export const app = express()
 
 app.post(
   "/webhook",
+  //   (req, res, next) => {
+  //   console.log("🔥 Webhook received");
+  //   console.log("Signature:", req.headers["stripe-signature"]);
+  //   next();
+  // },
   express.raw({ type: "application/json" }), // raw body for stripe verification
   paymentController.handleStripeWebhook
 );

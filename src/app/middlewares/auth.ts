@@ -7,8 +7,7 @@ export const auth = (...roles: UserRole[]) => {
     return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
         try {
             const token = req.cookies.accessToken
-            // console.log(token,"token"); 
-console.log("body",req.body);
+            // console.log(token,"token");
 
             if (!token) {
                 throw new Error("You are not authorized!")

@@ -2,7 +2,7 @@ import { User } from "@prisma/client"
 import { prisma } from "../../shared/prisma"
 
 const creatSaveEvent =async (user:User,eventId:string)=>{
-console.log("params",user.id,eventId);
+// console.log("params",user.id,eventId);
 
     const result = prisma.saveEvent.create({
         data:{

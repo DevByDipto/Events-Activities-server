@@ -57,7 +57,7 @@ const getAllAdmin =async ()=>{
 
 
 const updateUserBlockStatus =async (accountId:string,payload:{isBlocked:boolean})=>{
-console.log(payload);
+// console.log(payload);
 
  const allAdmins = prisma.user.update({
     where:{id:accountId},
@@ -83,7 +83,7 @@ const getAllUser =async ()=>{
 
 
 const updateEventApproval =async (eventId:string,payload:{isApproved:boolean})=>{
-console.log(payload);
+// console.log(payload);
 
  const result = prisma.event.update({
     where:{id:eventId},

@@ -20,6 +20,7 @@ const user = req.user;
 const updateEvent =catchAsync(async (req: Request & { user?: User }, res: Response) =>{
 const user = req.user;
 const {id} = req.params
+console.log("req.body",req.body);
 
     const result = await EventService.updateEvent(user as User,req.body as Partial<Event>,id);
 
@@ -46,7 +47,7 @@ const deleteEvent = catchAsync(async (req: Request & { user?: User }, res: Respo
     })
 });
 const getEvent = catchAsync(async (req: Request , res: Response) => {
-console.log("work in get event.....");
+// console.log("work in get event.....");
 
    
     const {id} = req.params
@@ -62,7 +63,7 @@ console.log("work in get event.....");
 });
 
 const joinEvent =catchAsync(async (req: Request & { user?: User }, res: Response) =>{
-    console.log("work joinEvent");
+    // console.log("work joinEvent");
     
 const user = req.user;
 const {eventId} = req.params
@@ -77,12 +78,12 @@ const {eventId} = req.params
 })
 
 const getAllEvents = catchAsync(async (req: Request , res: Response) => {
-console.log("work");
+// console.log("work");
 
     const filters = req.query;   // সব query এখানেই আসবে
 
     const result = await EventService.getAllEvents(filters);
-console.log(result);
+// console.log(result);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -93,7 +94,7 @@ console.log(result);
 });
 
 const getHostCreatedAllEvents = catchAsync(async (req: Request &{user?:User} , res: Response) => {
-    console.log("work");
+    // console.log("work");
     
 const user = req.user
     

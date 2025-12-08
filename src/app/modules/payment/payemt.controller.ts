@@ -6,7 +6,7 @@ import { User } from "@prisma/client";
 import { AppError } from "../../utils/AppError";
 
 const handleStripeWebhook = catchAsync(async (req: Request, res: Response) => {
-console.log("work");
+// console.log("work");
     
     const result = await paymentService.handleStripeWebhook(req);
     sendResponse(res, {
@@ -16,6 +16,7 @@ console.log("work");
         data: result,
     });
 });
+
 const getPaymentForHost = catchAsync(async (req: Request&{user?:User}, res: Response) => {
     const user = req.user
     const result = await paymentService.getPaymentForHost(user as User);

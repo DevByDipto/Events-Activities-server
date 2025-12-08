@@ -7,10 +7,10 @@ import { HostController } from './host.controller';
 import { eventCreatZodSchema } from '../event/event.validation';
  const router = express.Router();
  
- router.patch('/',
-       auth(UserRole.ADMIN,), 
-     validationRequest(eventCreatZodSchema),
-    HostController.creatEvent)
+//  router.patch('/',
+//        auth(UserRole.ADMIN,), 
+//      validationRequest(eventCreatZodSchema),
+//     HostController.creatEvent)
  
     // router.post('/',
     //     //    auth(UserRole.ADMIN),

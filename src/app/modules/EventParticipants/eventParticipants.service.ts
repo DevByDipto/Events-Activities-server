@@ -4,16 +4,16 @@ import { prisma } from "../../shared/prisma";
 
 
 
- const getAllEventParticipants= async (user: any) => {
+ const getUserEventParticipants= async (user: any) => {
 // console.log(user,"user");
 
     // ADMIN → returns all
     if (user.role === "ADMIN") {
-        console.log("work");
-        const eventParticipants = await prisma.eventParticipants.findMany()
-        console.log("eventParticipants",eventParticipants);
+        // console.log("work");
+        // const eventParticipants = await prisma.eventParticipants.findMany()
+        // // console.log("eventParticipants",eventParticipants);
         
-        return eventParticipants
+        // return eventParticipants
       return await prisma.eventParticipants.findMany({
         include: {
           user: true,
@@ -32,7 +32,7 @@ import { prisma } from "../../shared/prisma";
           event: true,
         }
       });
-      console.log("result",result);
+      // console.log("result",result);
       
       return result
     }
@@ -45,10 +45,10 @@ import { prisma } from "../../shared/prisma";
         where: { hostId: user.id },
         select: { id: true }
       });
-console.log("hostEvents",hostEvents);
+// console.log("hostEvents",hostEvents);
 
       const eventIds = hostEvents.map((ev :any) => ev.id);
-console.log("eventIds",eventIds);
+// console.log("eventIds",eventIds);
 
       // Step 2: get all EventParticipants for those events
        const result = await prisma.eventParticipants.findMany({
@@ -58,7 +58,7 @@ console.log("eventIds",eventIds);
           event: true,
         }
       });
-      console.log("result",result);
+      // console.log("result",result);
       
       return result
     }
@@ -67,7 +67,13 @@ console.log("eventIds",eventIds);
   }
 
 
-
+const getAllEventParticipants= async () => {
+        const eventParticipants = await prisma.eventParticipants.findMany({
+          select:{user:true,event:true}
+        })
+        return eventParticipants
+}
 export const EventParticipantsService = {
+    getUserEventParticipants,
     getAllEventParticipants
 }

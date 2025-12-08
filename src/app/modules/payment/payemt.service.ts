@@ -8,9 +8,10 @@ import { GetPaymentsOptions } from "../../interfaces";
  const handleStripeWebhook= async(req: Request) =>{ 
     const sig = req.headers["stripe-signature"];
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET as string;
- console.log("console.log(process.env.STRIPE_WEBHOOK_SECRET): ",process.env.STRIPE_WEBHOOK_SECRET);
+//  console.log("console.log(process.env.STRIPE_WEBHOOK_SECRET): ",process.env.STRIPE_WEBHOOK_SECRET);
     let event: Stripe.Event;
-
+console.log("webhook is working");
+  
     try {
       event = stripe.webhooks.constructEvent(
         req.body,
@@ -45,7 +46,7 @@ import { GetPaymentsOptions } from "../../interfaces";
       const transactionId = session.payment_intent as string;
       const eventId = session?.metadata?.eventId;
       const paymentId = session?.metadata?.paymentId;
-      console.log({transactionId});
+      // console.log({transactionId});
 
 
 await prisma.payment.update({
@@ -72,7 +73,9 @@ await prisma.payment.update({
       hostId: hostId
     },
     select: {
-      id: true
+      id: true,
+      // user:true,
+    
     }
   });
 
@@ -89,14 +92,26 @@ await prisma.payment.update({
       eventId: {
         in: eventIds
       }
+    },
+    select:{
+      id:true,
+      user:true,
+      event:true,
+      userId:true,
+      eventId:true,
+      paymentStatus:true,
+      transactionId:true
+
     }
   });
+  console.log("payments",payments);
+  
   return payments;
 };
 
  const getPayments = async (user: User, options?: GetPaymentsOptions) => {
   const { id, role } = user;
-console.log(id, role);
+// console.log(id, role);
 
   const where: any = {}; // Prisma where object
 
@@ -114,7 +129,7 @@ console.log(id, role);
   } else {
     throw new Error("Invalid role");
   }
-console.log("where",where);
+// console.log("where",where);
 
   const payments = await prisma.payment.findMany({
     where,
@@ -123,7 +138,7 @@ console.log("where",where);
     },
   });
 
-console.log("payments",payments);
+// console.log("payments",payments);
 
   return payments;
 };

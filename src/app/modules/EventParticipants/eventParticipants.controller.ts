@@ -5,12 +5,27 @@ import catchAsync from "../../shared/catchAsync";
 import sendResponse from "../../shared/sendResponse";
 import { EventParticipantsService } from "./eventParticipants.service";
 
- const  getAllEventParticipants=catchAsync(async (req: Request &{user?:User}, res: Response) => {
-  console.log("work getAllEventParticipants");
+ const  getUserEventParticipants=catchAsync(async (req: Request &{user?:User}, res: Response) => {
+  // console.log("work getAllEventParticipants");
   
     const user = req.user;
 
-    const result = await EventParticipantsService.getAllEventParticipants(user);
+    const result = await EventParticipantsService.getUserEventParticipants(user);
+
+    sendResponse(res, {
+      statusCode: httpStatus.OK,
+      success: true,
+      message: "Event participants fetched successfully",
+      data: result,
+    });
+  })
+
+ const  getAllEventParticipants=catchAsync(async (req: Request, res: Response) => {
+  // console.log("work getAllEventParticipants");
+  
+   
+
+    const result = await EventParticipantsService.getAllEventParticipants();
 
     sendResponse(res, {
       statusCode: httpStatus.OK,
@@ -22,5 +37,6 @@ import { EventParticipantsService } from "./eventParticipants.service";
 
 
 export const EventParticipantsController = {
+    getUserEventParticipants,
     getAllEventParticipants
 }

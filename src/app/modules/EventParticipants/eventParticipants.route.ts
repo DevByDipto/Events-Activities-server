@@ -7,8 +7,12 @@ import { EventParticipantsController } from './eventParticipants.controller';
 
 const router = express.Router();
 
-router.get('/',
+router.get('/user',
     auth(UserRole.ADMIN,UserRole.USER,UserRole.HOST),
+    EventParticipantsController.getUserEventParticipants 
+)
+router.get('/',
+    auth(),
     EventParticipantsController.getAllEventParticipants 
 )
 

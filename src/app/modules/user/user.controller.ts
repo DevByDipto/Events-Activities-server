@@ -16,6 +16,8 @@ const creatUser = catchAsync(async (req: Request, res: Response) => {
     })
 })
 const getMyProfile = catchAsync(async (req: Request & {user?:User}, res: Response) => {
+    // console.log("work in myprofile");
+    
     const user = req.user
     const result = await UserService.getMyProfile(user as User);
 
@@ -30,7 +32,7 @@ const getMyProfile = catchAsync(async (req: Request & {user?:User}, res: Respons
 const updateMyProfie = catchAsync(async (req: Request & { user?: User }, res: Response) => {
 
     const user = req.user;
-console.log("updateMyProfie");
+// console.log("updateMyProfie");
 
     const result = await UserService.updateMyProfie(user as User, req);
 
