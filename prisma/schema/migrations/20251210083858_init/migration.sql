@@ -29,6 +29,7 @@ CREATE TABLE "Event" (
     "status" "EventStatus" NOT NULL DEFAULT 'OPEN',
     "isApproved" BOOLEAN NOT NULL DEFAULT true,
     "isFeatured" BOOLEAN NOT NULL DEFAULT false,
+    "softDelete" BOOLEAN NOT NULL DEFAULT false,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -43,6 +44,7 @@ CREATE TABLE "Payment" (
     "transactionId" TEXT,
     "userId" TEXT NOT NULL,
     "eventId" TEXT NOT NULL,
+    "paymentUrl" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -103,6 +105,9 @@ CREATE TABLE "User" (
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Payment_transactionId_key" ON "Payment"("transactionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Payment_userId_eventId_key" ON "Payment"("userId", "eventId");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Review_reviewerId_eventId_key" ON "Review"("reviewerId", "eventId");
