@@ -115,8 +115,8 @@ const joinEvent = async (user: User, eventId: string) => {
 
 const cancelUnpaidevent = async () => {
 
-    // const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000);
-    const thirtyMinAgo = new Date(Date.now() - 2 * 60 * 1000);
+    const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000);
+    // const thirtyMinAgo = new Date(Date.now() - 2 * 60 * 1000);
 
     const unPaidpayments = await prisma.payment.findMany({
         where: {
