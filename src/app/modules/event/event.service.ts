@@ -22,7 +22,7 @@ console.log("eventDataeventData",eventData);
         where: {
             hostId: user.id,
             id,
-            isApproved: true
+            isApproved: true 
         },
         data: eventData
     })

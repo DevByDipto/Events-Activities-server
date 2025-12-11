@@ -17,7 +17,7 @@ const getAllSaveEvent =async (user:User)=>{
 
     const result = prisma.saveEvent.findMany({
         where:{userId:user.id},
-        select:{user:true,event:true}
+        select:{user:true,event:true,eventId:true,userId:true}
     })
     return result
 
