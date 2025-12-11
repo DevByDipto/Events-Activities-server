@@ -45,7 +45,7 @@ const deleteEvent = async (user: User, id: string) => {
 const getEvent = async (id: string) => {
     const result = await prisma.event.findFirstOrThrow({ where: { id } })
     return result
-}
+} 
 
 const joinEvent = async (user: User, eventId: string) => {
 
@@ -95,8 +95,8 @@ const joinEvent = async (user: User, eventId: string) => {
                 paymentId: payment.id,
             },
             mode: "payment",
-            success_url: `https://keep.google.com/u/0/#home`,
-            cancel_url: `https://facebook.com`,
+            success_url: `https://event-hub-client-ivory.vercel.app/explore`,
+            cancel_url: `https://event-hub-client-ivory.vercel.app/explore`,
         });
         // console.log("url",session.url);
         await tnx.payment.update({
@@ -115,7 +115,8 @@ const joinEvent = async (user: User, eventId: string) => {
 
 const cancelUnpaidevent = async () => {
 
-    const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000);
+    // const thirtyMinAgo = new Date(Date.now() - 30 * 60 * 1000);
+    const thirtyMinAgo = new Date(Date.now() - 2 * 60 * 1000);
 
     const unPaidpayments = await prisma.payment.findMany({
         where: {

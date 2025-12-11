@@ -147,7 +147,7 @@ const getSinglePayment = async (userId:string,eventId:string) => {
   const result = await prisma.payment.findUnique({where:{userId_eventId:{userId,eventId}}})
   return result
 }
-export const paymentService = {
+export const paymentService = { 
 handleStripeWebhook,
 getPaymentForHost,
 getPayments,

@@ -6,7 +6,7 @@ if(userToken.accessToken){
     res.cookie('accessToken', userToken.accessToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "lax", 
+        sameSite: "none", 
         maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 }
@@ -15,7 +15,7 @@ if(userToken.refreshToken){
     res.cookie('refreshToken', userToken.refreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: "lax", 
+        sameSite: "none", 
         maxAge: 30 * 24 * 60 * 60, // 1 day
     });
 }
